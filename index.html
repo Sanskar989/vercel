@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en" data-color-scheme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mini Vercel Dashboard</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Header -->
+  <header class="header flex items-center justify-between px-16 py-8">
+    <div class="flex items-center gap-8">
+      <button id="sidebarToggle" class="btn btn--secondary btn--sm" aria-label="Toggle sidebar">
+        <!-- menu icon -->
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+      <h1 class="dashboard-title">Mini Vercel Dashboard</h1>
+    </div>
+    <div class="flex items-center gap-8">
+      <!-- Online status indicator -->
+      <span id="connectionIndicator" class="status status--success" aria-live="polite">Online</span>
+      <!-- Theme toggle -->
+      <button id="themeToggle" class="btn btn--outline btn--sm" aria-label="Toggle dark/light mode">
+        <svg id="themeIcon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="5"/><path d="M12 1v2"/><path d="M12 21v2"/><path d="M4.22 4.22l1.42 1.42"/><path d="M18.36 18.36l1.42 1.42"/><path d="M1 12h2"/><path d="M21 12h2"/><path d="M4.22 19.78l1.42-1.42"/><path d="M18.36 5.64l1.42-1.42"/></svg>
+      </button>
+      <!-- User avatar -->
+      <div class="avatar" aria-label="User settings" role="button" tabindex="0">A</div>
+    </div>
+  </header>
+
+  <div class="layout flex">
+    <!-- Sidebar -->
+    <aside id="sidebar" class="sidebar">
+      <nav aria-label="Primary navigation">
+        <ul class="nav-list">
+          <li><button class="nav-link active" data-section="dashboard"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 13h2v-2H3v2zm4 0h14v-2H7v2z"/><path d="M5 7h18v2H5V7z"/><path d="M5 17h18v2H5v-2z"/></svg> Dashboard</button></li>
+          <li><button class="nav-link" data-section="projects"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg> Projects</button></li>
+          <li><button class="nav-link" data-section="deployments"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-2 14H7L5 6"/><path d="M14 10l-2 2-2-2"/></svg> Deployments</button></li>
+          <li><button class="nav-link" data-section="analytics"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg> Analytics</button></li>
+          <li><button class="nav-link" data-section="security"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> Security</button></li>
+          <li><button class="nav-link" data-section="resources"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg> Resources</button></li>
+          <li><button class="nav-link" data-section="assistant"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h9"/><path d="M16 3h5v5"/><line x1="16" y1="8" x2="21" y2="3"/></svg> AI Assistant</button></li>
+        </ul>
+      </nav>
+    </aside>
+
+    <!-- Main content area -->
+    <main class="main container py-16" tabindex="-1">
+      <!-- DASHBOARD -->
+      <section id="dashboard" class="page active" aria-labelledby="dashboard-heading">
+        <h2 id="dashboard-heading" class="sr-only">Dashboard Overview</h2>
+        <div class="metrics-grid">
+          <!-- metric cards injected via JS -->
+        </div>
+        <div class="charts-grid mt-8">
+          <div class="card"><div class="card__body"><canvas id="visitorsChart" aria-label="Daily visitors chart" role="img" height="320"></canvas></div></div>
+          <div class="card"><div class="card__body"><canvas id="performanceChart" aria-label="Project performance chart" role="img" height="320"></canvas></div></div>
+        </div>
+      </section>
+
+      <!-- PROJECTS -->
+      <section id="projects" class="page" aria-labelledby="projects-heading">
+        <h2 id="projects-heading" class="mb-8">Projects</h2>
+        <div class="flex gap-8 mb-8">
+          <input id="projectSearch" class="form-control" placeholder="Search projects…" aria-label="Search projects" />
+          <select id="statusFilter" class="form-control" aria-label="Filter by status">
+            <option value="">All statuses</option>
+            <option value="deployed">Deployed</option>
+            <option value="deploying">Deploying</option>
+            <option value="building">Building</option>
+            <option value="error">Error</option>
+          </select>
+        </div>
+        <div id="projectList" class="project-list flex gap-16 flex-wrap"></div>
+      </section>
+
+      <!-- DEPLOYMENTS -->
+      <section id="deployments" class="page" aria-labelledby="deployments-heading">
+        <h2 id="deployments-heading" class="mb-8">Deployments</h2>
+        <div class="card"><div class="card__body overflow-auto"><table id="deploymentsTable" class="deployments-table" aria-label="Deployments list"></table></div></div>
+      </section>
+
+      <!-- ANALYTICS -->
+      <section id="analytics" class="page" aria-labelledby="analytics-heading">
+        <h2 id="analytics-heading" class="mb-8">Analytics</h2>
+        <div class="charts-grid">
+          <div class="card"><div class="card__body"><canvas id="regionChart" aria-label="Requests by region" role="img" height="320"></canvas></div></div>
+        </div>
+      </section>
+
+      <!-- SECURITY -->
+      <section id="security" class="page" aria-labelledby="security-heading">
+        <h2 id="security-heading" class="mb-8">Security Center</h2>
+        <div id="securityContent" class="flex flex-col gap-16"></div>
+      </section>
+
+      <!-- RESOURCES -->
+      <section id="resources" class="page" aria-labelledby="resources-heading">
+        <h2 id="resources-heading" class="mb-8">Cloud Resources</h2>
+        <div id="resourcesContent" class="resources-grid"></div>
+      </section>
+
+      <!-- AI ASSISTANT -->
+      <section id="assistant" class="page" aria-labelledby="assistant-heading">
+        <h2 id="assistant-heading" class="mb-8">AI Assistant</h2>
+        <div class="assistant-container card"><div class="card__body flex flex-col" style="height: 400px;">
+          <div id="chatMessages" class="chat-messages flex flex-col gap-8" style="flex:1; overflow-y:auto;"></div>
+          <form id="chatForm" class="flex gap-8 mt-8" autocomplete="off">
+            <input id="chatInput" class="form-control" placeholder="Type a message..." aria-label="Chat input" />
+            <button type="submit" class="btn btn--primary">Send</button>
+          </form>
+        </div></div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Status bar -->
+  <footer class="status-bar flex items-center justify-between px-16 py-8">
+    <span id="timeNow"></span>
+    <span id="offlineIndicator" class="status status--error hidden">Offline</span>
+  </footer>
+
+  <!-- Toasts -->
+  <div id="toastContainer" class="toast-container"></div>
+
+  <!-- Modal -->
+  <div id="modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-describedby="modalBody">
+    <div class="modal-content card" role="document">
+      <header class="modal-header flex items-center justify-between px-16 py-8">
+        <h3 id="modalTitle"></h3>
+        <button id="modalClose" class="btn btn--secondary btn--sm" aria-label="Close modal">✕</button>
+      </header>
+      <div id="modalBody" class="card__body"></div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <script src="app.js" defer></script>
+</body>
+</html>
